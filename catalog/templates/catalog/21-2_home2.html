@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категории - Магазин</title>
+
+    <style>
+        /* Базовые настройки страницы */
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Сайдбар зафиксирован слева */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #1e2125;
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Основной контент с правильным отступом */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .text-center { text-align: center; }
+        .text-muted { color: #6c757d; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .mb-5 { margin-bottom: 3rem; }
+        .mt-4 { margin-top: 1.5rem; }
+
+        .display-4 {
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        /* Навигация (меню) */
+        .nav {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0;
+            margin-bottom: auto;
+            list-style: none;
+            gap: 5px;
+        }
+        .nav-link-custom {
+            color: #adb5bd;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 1rem;
+        }
+        .nav-link-custom:hover {
+            color: white;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 6px;
+        }
+        .active-custom {
+            background-color: #2f6bf2 !important;
+            color: white !important;
+            border-radius: 6px;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        hr { margin: 15px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.15); }
+        .rounded-circle { border-radius: 50%; }
+
+        /* ГОРИЗОНТАЛЬНАЯ СЕТКА КАРТОЧЕК ТОВАРОВ */
+        .products-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+        }
+        .product-col {
+            flex: 1 1 300px;
+            max-width: 320px;
+            box-sizing: border-box;
+        }
+
+        /* Стили карточек товаров строго по макету */
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 16px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .card-header h4 { margin: 0; font-size: 1.25rem; font-weight: 400; color: #6c757d; }
+        .card-body { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-title { font-size: 2.5rem; margin-top: 0; margin-bottom: 1.5rem; font-weight: 500; }
+        .list-unstyled { list-style: none; padding-left: 0; margin-bottom: 1.5rem; color: #6c757d; font-size: 0.9rem; line-height: 1.6; }
+
+        /* Кнопка купить */
+        .btn-outline-primary {
+            color: #2f6bf2;
+            background-color: transparent;
+            border: 1px solid #2f6bf2;
+            padding: 8px 16px;
+            border-radius: 6px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        .btn-outline-primary:hover {
+            color: #fff;
+            background-color: #2f6bf2;
+        }
+
+        /* СТИЛИ ДЛЯ ВЫКАТНОГО МЕНЮ ПОЛЬЗОВАТЕЛЯ */
+        .custom-dropup-menu {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            margin-bottom: 12px;
+            background-color: #343a40;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 5px 0;
+            border-radius: 8px;
+            list-style: none;
+            min-width: 160px;
+            z-index: 99999;
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.175);
+        }
+        .custom-dropup-item {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            padding: 8px 16px;
+            font-size: 0.95rem;
+        }
+        .custom-dropup-item:hover { background-color: rgba(255,255,255,0.08); }
+        .custom-dropup-divider { margin: 5px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+
+        .user-container-block {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            padding: 5px 0;
+        }
+        .user-container-block::after {
+            display: inline-block;
+            margin-left: .255em;
+            vertical-align: .255em;
+            content: "";
+            border-top: 0;
+            border-right: .3em solid transparent;
+            border-bottom: .3em solid;
+            border-left: .3em solid transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <a href="21-2_home1.html" style="color: white; text-decoration: none; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; display: block;">
+            Меню
+        </a>
+        <hr>
+
+        <ul class="nav">
+            <!-- НАВИГАЦИЯ: Ссылки ведут на файлы страниц -->
+            <!-- Кнопка Главная открывает страницу 1 -->
+            <li><a href="/" class="nav-link-custom">Главная</a></li>
+            <!-- Кнопка Категории (Активная) открывает страницу 2 -->
+            <li><a href="/categories/" class="active-custom">Категории</a></li>
+            <!-- Кнопка Заказы открывает страницу 3 Каталог -->
+            <li><a href="/orders/" class="nav-link-custom">Заказы</a></li>
+            <!-- Кнопка Контакты открывает страницу 4 -->
+            <li><a href="/contacts/" class="nav-link-custom">Контакты</a></li>
+        </ul>
+
+        <hr style="margin-top: auto;">
+
+        <!-- БЛОК ПОЛЬЗОВАТЕЛЯ -->
+        <div style="position: relative;">
+            <!-- Всплывающая серая табличка (По умолчанию скрыта) -->
+            <ul class="custom-dropup-menu" id="dropdownMenu">
+                <li><a class="custom-dropup-item" href="#">Профиль</a></li>
+                <li><div class="custom-dropup-divider"></div></li>
+                <li><a class="custom-dropup-item" href="#" style="color: #ea868f;">Выход</a></li>
+            </ul>
+
+            <div class="user-container-block" id="dropdownUser">
+                <img src="https://a1.drive-data.ru/1b1c92es-960.jpg" alt="user" width="32" height="32" class="rounded-circle">
+                <strong>Пользователь</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid text-center">
+            <h1 class="display-4 fw-normal mt-4 mb-5">Категория 1</h1>
+
+            <!-- Локальная сетка: ровные карточки товаров в два ряда -->
+            <div class="products-grid">
+
+                <!-- Товар 1 -->
+                <div class="product-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title">$ 100</h1>
+                            <ul class="list-unstyled text-center">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 2 -->
+                <div class="product-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title">$ 100</h1>
+                            <ul class="list-unstyled text-center">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 3 -->
+                <div class="product-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title">$ 100</h1>
+                            <ul class="list-unstyled text-center">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 4 -->
+                <div class="product-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title">$ 100</h1>
+                            <ul class="list-unstyled text-center">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 5 -->
+                <div class="product-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title">$ 100</h1>
+                            <ul class="list-unstyled text-center">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Товар 6 -->
+                <div class="product-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title">$ 100</h1>
+                            <ul class="list-unstyled text-center">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /products-grid -->
+        </div> <!-- /container-fluid -->
+    </div> <!-- /main-content -->
+
+    <!-- Скрипт для интерактивного открытия меню пользователя -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var btn = document.getElementById('dropdownUser');
+            var menu = document.getElementById('dropdownMenu');
+
+            if (btn && menu) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (menu.style.display === 'block') {
+                        menu.style.display = 'none';
+                    } else {
+                        menu.style.display = 'block';
+                    }
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                        menu.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

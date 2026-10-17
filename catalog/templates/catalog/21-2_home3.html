@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категории - Магазин</title>
+
+    <style>
+        /* Базовые настройки страницы */
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Сайдбар зафиксирован слева */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #1e2125;
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Основной контент с правильным отступом */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .text-center { text-align: center; }
+        .text-muted { color: #6c757d; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 1rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .mb-5 { margin-bottom: 3rem; }
+        .mt-4 { margin-top: 1.5rem; }
+
+        .display-5 {
+            font-size: 2.5rem;
+            font-weight: 400;
+        }
+
+        /* Навигация (меню) */
+        .nav {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0;
+            margin-bottom: auto;
+            list-style: none;
+            gap: 5px;
+        }
+        .nav-link-custom {
+            color: #adb5bd;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 1rem;
+        }
+        .nav-link-custom:hover {
+            color: white;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 6px;
+        }
+        .active-custom {
+            background-color: #2f6bf2 !important;
+            color: white !important;
+            border-radius: 6px;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        hr { margin: 15px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.15); }
+        .rounded-circle { border-radius: 50%; }
+
+        /* ДВУХКОЛОНОЧНАЯ СЕТКА КАТАЛОГА (СТРОГО ПО МАКЕТУ) */
+        .catalog-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .catalog-col {
+            flex: 1 1 450px;
+            max-width: 480px;
+            box-sizing: border-box;
+        }
+
+        /* Стили больших карточек с Thumbnail */
+        .catalog-card {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.05);
+        }
+        .thumbnail-box {
+            background-color: #6c757d;
+            color: #dee2e6;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .catalog-body {
+            padding: 20px;
+            text-align: left;
+        }
+        .catalog-text {
+            font-size: 0.95rem;
+            color: #212529;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Кнопки и таймер внизу карточки */
+        .catalog-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .btn-group {
+            display: flex;
+        }
+        .btn-card {
+            background-color: #fff;
+            color: #6c757d;
+            border: 1px solid #6c757d;
+            padding: 6px 12px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-view {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border-right: none;
+        }
+        .btn-edit {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .btn-card:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        .time-text {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        /* СТИЛИ ДЛЯ ВЫКАТНОГО МЕНЮ ПОЛЬЗОВАТЕЛЯ */
+        .custom-dropup-menu {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            margin-bottom: 12px;
+            background-color: #343a40;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 5px 0;
+            border-radius: 8px;
+            list-style: none;
+            min-width: 160px;
+            z-index: 99999;
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.175);
+        }
+        .custom-dropup-item {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            padding: 8px 16px;
+            font-size: 0.95rem;
+        }
+        .custom-dropup-item:hover { background-color: rgba(255,255,255,0.08); }
+        .custom-dropup-divider { margin: 5px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+
+        .user-container-block {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            padding: 5px 0;
+        }
+        .user-container-block::after {
+            display: inline-block;
+            margin-left: .255em;
+            vertical-align: .255em;
+            content: "";
+            border-top: 0;
+            border-right: .3em solid transparent;
+            border-bottom: .3em solid;
+            border-left: .3em solid transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <a href="21-2_home1.html" style="color: white; text-decoration: none; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; display: block;">
+            МЕНЮ
+        </a>
+        <hr>
+
+        <ul class="nav">
+            <!-- НАВИГАЦИЯ: Ссылки ведут на файлы страниц -->
+            <!-- Кнопка Главная открывает страницу 1 -->
+            <li><a href="/" class="nav-link nav-link-custom"><i class="bi bi-house-door me-2"></i>Главная</a></li>
+            <!-- Кнопка Категории открывает страницу 2 -->
+            <li><a href="/categories/" class="nav-link nav-link-custom"><i class="bi bi-grid me-2"></i>Категории</a></li>
+            <!-- Кнопка Заказы (Активная) открывает страницу 3 Каталог -->
+            <li><a href="/orders/" class="nav-link active-custom"><i class="bi bi-card-list-fill me-2"></i>Заказы</a></li>
+            <!-- Кнопка Контакты открывает страницу 4 -->
+            <li><a href="/contacts/" class="nav-link nav-link-custom"><i class="bi bi-telephone me-2"></i>Контакты</a></li>
+
+        </ul>
+
+        <hr style="margin-top: auto;">
+
+        <!-- БЛОК ПОЛЬЗОВАТЕЛЯ -->
+        <div style="position: relative;">
+            <!-- Всплывающая серая табличка (По умолчанию скрыта) -->
+            <ul class="custom-dropup-menu" id="dropdownMenu">
+                <li><a class="custom-dropup-item" href="#">Профиль</a></li>
+                <li><div class="custom-dropup-divider"></div></li>
+                <li><a class="custom-dropup-item" href="#" style="color: #ea868f;">Выход</a></li>
+            </ul>
+
+            <div class="user-container-block" id="dropdownUser">
+                <img src="https://a1.drive-data.ru/1b1c92es-960.jpg" alt="user" width="32" height="32" class="rounded-circle">
+                <strong>Пользователь</strong>
+            </div>
+        </div>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid text-center">
+            <h1 class="display-5 mt-4 mb-5">Каталог</h1>
+
+            <!-- Сетка карточек по две в ряд строго по вашему макету -->
+            <div class="catalog-grid">
+
+                <!-- Карточка 1 -->
+                <div class="catalog-col">
+                    <div class="catalog-card">
+                        <div class="thumbnail-box">Thumbnail</div>
+                        <div class="catalog-body">
+                            <p class="catalog-text">
+                                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                            </p>
+                            <div class="catalog-footer">
+                                <div class="btn-group">
+                                    <button type="button" class="btn-card btn-view">View</button>
+                                    <button type="button" class="btn-card btn-edit">Edit</button>
+                                </div>
+                                <span class="time-text">9 mins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка 2 -->
+                <div class="catalog-col">
+                    <div class="catalog-card">
+                        <div class="thumbnail-box">Thumbnail</div>
+                        <div class="catalog-body">
+                            <p class="catalog-text">
+                                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                            </p>
+                            <div class="catalog-footer">
+                                <div class="btn-group">
+                                    <button type="button" class="btn-card btn-view">View</button>
+                                    <button type="button" class="btn-card btn-edit">Edit</button>
+                                </div>
+                                <span class="time-text">9 mins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка 3 -->
+                <div class="catalog-col">
+                    <div class="catalog-card">
+                        <div class="thumbnail-box">Thumbnail</div>
+                        <div class="catalog-body">
+                            <p class="catalog-text">
+                                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                            </p>
+                            <div class="catalog-footer">
+                                <div class="btn-group">
+                                    <button type="button" class="btn-card btn-view">View</button>
+                                    <button type="button" class="btn-card btn-edit">Edit</button>
+                                </div>
+                                <span class="time-text">9 mins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка 4 -->
+                <div class="catalog-col">
+                    <div class="catalog-card">
+                        <div class="thumbnail-box">Thumbnail</div>
+                        <div class="catalog-body">
+                            <p class="catalog-text">
+                                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                            </p>
+                            <div class="catalog-footer">
+                                <div class="btn-group">
+                                    <button type="button" class="btn-card btn-view">View</button>
+                                    <button type="button" class="btn-card btn-edit">Edit</button>
+                                </div>
+                                <span class="time-text">9 mins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /catalog-grid -->
+        </div> <!-- /container-fluid -->
+    </div> <!-- /main-content -->
+
+    <!-- Скрипт для интерактивного открытия меню пользователя -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var btn = document.getElementById('dropdownUser');
+            var menu = document.getElementById('dropdownMenu');
+
+            if (btn && menu) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (menu.style.display === 'block') {
+                        menu.style.display = 'none';
+                    } else {
+                        menu.style.display = 'block';
+                    }
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                        menu.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
