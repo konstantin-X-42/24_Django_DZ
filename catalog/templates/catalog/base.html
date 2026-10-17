@@ -175,6 +175,90 @@
             user-select: none;
             padding: 5px 0;
         }
+
+        /* ДВУХКОЛОНОЧНАЯ СЕТКА КАТАЛОГА (СТРОГО ПО МАКЕТУ) */
+        .catalog-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .catalog-col {
+            flex: 1 1 450px;
+            max-width: 480px;
+            box-sizing: border-box;
+        }
+
+        /* Стили больших карточек с Thumbnail */
+        .catalog-card {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.05);
+            text-align: left;
+        }
+        .thumbnail-box {
+            background-color: #6c757d;
+            color: #dee2e6;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .catalog-body {
+            padding: 20px;
+            text-align: left;
+        }
+        .catalog-text {
+            font-size: 0.95rem;
+            color: #212529;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Кнопки и таймер внизу карточки */
+        .catalog-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .btn-group {
+            display: flex;
+        }
+        .btn-card {
+            background-color: #fff;
+            color: #6c757d;
+            border: 1px solid #6c757d;
+            padding: 6px 12px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-view {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border-right: none;
+        }
+        .btn-edit {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .btn-card:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        .time-text {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
     </style>
 </head>
 <body>
