@@ -1,39 +1,37 @@
 {% extends 'catalog/base.html' %}
 
+{% block title %}{{ product.name }}{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <!-- Кнопка возврата на главную по требованиям ТЗ (переходы туда и обратно) -->
-    <a href="{% url 'catalog:21-2_home1' %}" class="btn btn-outline-secondary mb-4">&larr; Назад на главную</a>
+<div class="container-fluid">
+    <a href="{% url 'catalog:21-2_home1' %}" class="btn btn-outline-primary mb-4" style="width: auto; display: inline-block;">&larr; Назад на главную</a>
 
-    <div class="row bg-white p-4 rounded shadow-sm">
-        <!-- Блок изображения товара -->
-        <div class="col-md-5 text-center mb-4 mb-md-0">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}" style="max-height: 400px; object-fit: contain;">
-            {% else %}
-                <div class="bg-light text-muted d-flex align-items-center justify-content-center rounded" style="height: 300px;">
-                    <span>Нет изображения</span>
-                </div>
-            {% endif %}
-        </div>
+    <div class="card p-4 shadow-sm" style="max-width: 900px; margin: 0 auto; text-align: left;">
+        <div style="display: flex; gap: 30px; flex-wrap: wrap;">
 
-        <!-- Блок с подробной информацией о товаре -->
-        <div class="col-md-7 d-flex flex-column justify-content-between">
-            <div>
-                <h1 class="display-5 fw-bold mb-3">{{ product.name }}</h1>
-                <p class="text-muted mb-4">Категория: <span class="badge bg-secondary">{{ product.category.name }}</span></p>
-                <hr>
-                <!-- Полное описание без ограничений -->
-                <p class="lead text-dark" style="white-space: pre-wrap;">{{ product.description }}</p>
+            <!-- Изображение -->
+            <div style="flex: 1 1 300px; text-align: center; background-color: #f8f9fa; border-radius: 8px; padding: 20px;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100%; max-height: 350px; object-fit: contain;">
+                {% else %}
+                    <p class="text-muted" style="margin-top: 100px;">Нет изображения</p>
+                {% endif %}
             </div>
 
-            <div class="mt-4">
-                <div class="mb-3">
-                    <span class="text-muted d-block">Цена за покупку:</span>
-                    <span class="h2 fw-bold text-success">${{ product.price }}</span>
+            <!-- Данные -->
+            <div style="flex: 1 1 400px; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h1 style="margin-top: 0; font-weight: 400;">{{ product.name }}</h1>
+                    <p class="text-muted">Категория: <strong>{{ product.category.name }}</strong></p>
+                    <hr>
+                    <p style="white-space: pre-wrap; color: #495057; line-height: 1.6;">{{ product.description|default:"Описание товара не предоставлено." }}</p>
                 </div>
-                <button class="btn btn-primary btn-lg px-5">Купить</button>
+                <div>
+                    <h2 class="text-success" style="margin-bottom: 20px;">${{ product.price }}</h2>
+                    <button class="btn btn-outline-primary" style="background-color: #2f6bf2; color: white;">Оформить заказ</button>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

@@ -1,0 +1,37 @@
+<div class="sidebar">
+    <a href="{% url 'catalog:21-2_home1' %}" style="color: white; text-decoration: none; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; display: block;">
+        МЕНЮ
+    </a>
+    <hr>
+
+    <ul class="nav">
+        <li>
+            <a href="{% url 'catalog:21-2_home1' %}" class="{% if request.resolver_match.url_name == '21-2_home1' %}active-custom{% else %}nav-link-custom{% endif %}">Главная</a>
+        </li>
+        <li>
+            <a href="{% url 'catalog:21-2_home2' %}" class="{% if request.resolver_match.url_name == '21-2_home2' %}active-custom{% else %}nav-link-custom{% endif %}">Категории</a>
+        </li>
+        <li>
+            <a href="{% url 'catalog:21-2_home3' %}" class="{% if request.resolver_match.url_name == '21-2_home3' %}active-custom{% else %}nav-link-custom{% endif %}">Заказы</a>
+        </li>
+        <li>
+            <a href="{% url 'catalog:21-2_home4' %}" class="{% if request.resolver_match.url_name == '21-2_home4' %}active-custom{% else %}nav-link-custom{% endif %}">Контакты</a>
+        </li>
+    </ul>
+
+    <hr style="margin-top: auto;">
+
+    <!-- БЛОК ПОЛЬЗОВАТЕЛЯ -->
+    <div style="position: relative;">
+        <ul class="custom-dropup-menu" id="dropdownMenu">
+            <li><a class="custom-dropup-item" href="#">Профиль</a></li>
+            <li><div class="custom-dropup-divider"></div></li>
+            <li><a class="custom-dropup-item" href="#" style="color: #ea868f;">Выход</a></li>
+        </ul>
+
+        <div class="user-container-block" id="dropdownUser">
+            <img src="https://drive-data.ru" alt="user" width="32" height="32" class="rounded-circle">
+            <strong>Пользователь</strong>
+        </div>
+    </div>
+</div>
