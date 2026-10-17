@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from catalog.models import Product, ContactInfo
+from catalog.forms import ProductForm
 
 
 def home_view(request):
@@ -69,9 +70,18 @@ def product_detail_view(request, pk):
 
 # Дополнительное задание 1: Контроллер формы создания товара
 def create_product_view(request):
-    # Пока оставляем пустым или с базовым рендером, чтобы сервер запустился
-    return render(request, 'catalog/product_form.html')
+    """Контроллер для создания нового товара с защитой и валидацией"""
+    if request.method == 'POST':
+        # Если пользователь нажал кнопку "Сохранить", передаем данные в форму
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()  # Форма валидна — сохраняем новый товар в БД
+            return redirect('catalog:21-2_home1')  # Перенаправляем на главную
+    else:
+        # Если пользователь просто открыл страницу — отдаем пустую форму
+        form = ProductForm()
 
+    return render(request, 'catalog/product_form.html', {'form': form})
 
 
 

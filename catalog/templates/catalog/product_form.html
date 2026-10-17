@@ -1,36 +1,27 @@
 {% extends 'catalog/base.html' %}
 
-{% block title %}Добавить товар - Магазин{% endblock %}
+{% block title %}Добавить товар{% endblock %}
 
 {% block content %}
-<div class="container-fluid" style="text-align: left;">
-    <!-- Заголовок и подзаголовок в едином стиле сайта -->
-    <h1 class="display-5 fw-normal mt-4 mb-2">Добавить товар</h1>
-    <p class="text-muted mb-5">Заполните поля ниже, чтобы опубликовать новый продукт в каталоге.</p>
-    
-    <!-- Карточка с формой -->
-    <div class="card p-4 shadow-sm" style="max-width: 600px; margin: 0 auto; text-align: left;">
-        <!-- enctype ОБЯЗАТЕЛЕН для загрузки картинок моделей -->
-        <form method="post" enctype="multipart/form-data" class="needs-validation">
-            {% csrf_token %}
-            
-            <!-- Динамический цикл вывода полей формы -->
-            {% for field in form %}
-                <div class="mb-3">
-                    <label class="form-label fw-bold text-muted mb-1 d-block">{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="text-danger small mt-1">{{ field.errors }}</div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-            
-            <div class="mt-4 d-flex gap-2">
-                <!-- Оформление кнопки в фирменном синем стиле -->
-                <button type="submit" class="btn-outline-primary" style="background-color: #2f6bf2; color: white; width: auto; padding: 10px 24px;">Сохранить товар</button>
-                <a href="{% url 'catalog:21-2_home1' %}" class="btn-outline-primary" style="width: auto; padding: 10px 24px; text-decoration: none; color: #6c757d; border-color: #6c757d;">Отмена</a>
-            </div>
-        </form>
-    </div>
+<div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 40px; border: 1px solid #dee2e6; border-radius: 8px; box-shadow: 0 .125rem .25rem rgba(0,0,0,.05);">
+    <h2 class="mb-4" style="font-weight: 400; margin-top: 0;">Добавить товар</h2>
+    <p class="text-muted mb-4" style="font-size: 0.95rem;">Заполните поля ниже, чтобы опубликовать новый продукт в каталоге.</p>
+
+    <!-- Форма отправляет данные методом POST и поддерживает загрузку картинок (enctype) -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Выводим сгенерированные Django поля формы -->
+        {{ form.as_p }}
+
+        <div style="margin-top: 30px; display: flex; gap: 15px;">
+            <button type="submit" class="btn-outline-primary" style="background-color: #2f6bf2; color: white; flex: 1;">
+                Сохранить товар
+            </button>
+            <a href="{% url 'catalog:21-2_home1' %}" class="btn-outline-primary" style="text-align: center; border-color: #6c757d; color: #6c757d; flex: 1;">
+                Отмена
+            </a>
+        </div>
+    </form>
 </div>
 {% endblock %}
