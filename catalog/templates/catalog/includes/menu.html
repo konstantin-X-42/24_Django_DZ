@@ -17,21 +17,40 @@
         <li>
             <a href="{% url 'catalog:21-2_home4' %}" class="{% if request.resolver_match.url_name == '21-2_home4' %}active-custom{% else %}nav-link-custom{% endif %}">Контакты</a>
         </li>
+
     </ul>
 
     <hr style="margin-top: auto;">
 
     <!-- БЛОК ПОЛЬЗОВАТЕЛЯ -->
-    <div style="position: relative;">
+    <div style="position: relative;" class="dropdown">
+        <!-- Всплывающее меню -->
         <ul class="custom-dropup-menu" id="dropdownMenu">
             <li><a class="custom-dropup-item" href="#">Профиль</a></li>
             <li><div class="custom-dropup-divider"></div></li>
             <li><a class="custom-dropup-item" href="#" style="color: #ea868f;">Выход</a></li>
         </ul>
 
-        <div class="user-container-block" id="dropdownUser">
-            <img src="https://drive-data.ru" alt="user" width="32" height="32" class="rounded-circle">
-            <strong>Пользователь</strong>
+        <!-- Кнопка пользователя со стрелочкой в верхнем индексе (как степень) -->
+        <div class="user-container-block dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://a1.drive-data.ru/1b1c92es-960.jpg" alt="user" width="32" height="32" class="rounded-circle" style="object-fit: cover; border-radius: 50%;">
+            <strong class="ms-1">Пользователь<sup style="font-size: 0.6rem; margin-left: 3px; color: #ffffff; vertical-align: super;"> ▲</sup></strong>
         </div>
+
     </div>
+
+
+<!--    &lt;!&ndash; БЛОК ПОЛЬЗОВАТЕЛЯ &ndash;&gt;-->
+<!--    <div style="position: relative;">-->
+<!--        <ul class="custom-dropup-menu" id="dropdownMenu">-->
+<!--            <li><a class="custom-dropup-item" href="#">Профиль</a></li>-->
+<!--            <li><div class="custom-dropup-divider"></div></li>-->
+<!--            <li><a class="custom-dropup-item" href="#" style="color: #ea868f;">Выход</a></li>-->
+<!--        </ul>-->
+
+<!--        <div class="user-container-block" id="dropdownUser">-->
+<!--            <img src="https://drive-data.ru" alt="user" width="32" height="32" class="rounded-circle">-->
+<!--            <strong>Пользователь</strong>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>

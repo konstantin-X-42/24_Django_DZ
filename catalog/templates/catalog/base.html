@@ -175,6 +175,18 @@
             user-select: none;
             padding: 5px 0;
         }
+<!--        .user-container-block {-->
+<!--            color: #ffffff !important;-->
+<!--            text-decoration: none !important;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 8px;-->
+<!--            font-size: 1rem;-->
+<!--            font-weight: 600;-->
+<!--            cursor: pointer;-->
+<!--            user-select: none;-->
+<!--            padding: 5px 0;-->
+<!--        }-->
 
         /* ДВУХКОЛОНОЧНАЯ СЕТКА КАТАЛОГА (СТРОГО ПО МАКЕТУ) */
         .catalog-grid {
@@ -272,5 +284,29 @@
         {% endblock %}
     </div>
 
+    <!-- СКРИПТ ДЛЯ РАБОТЫ ВЫКАТНОГО МЕНЮ ПОЛЬЗОВАТЕЛЯ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownUser = document.getElementById('dropdownUser');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            if (dropdownUser && dropdownMenu) {
+                dropdownUser.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    // Переключаем отображение меню (показать/скрыть)
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = 'none';
+                    } else {
+                        dropdownMenu.style.display = 'block';
+                    }
+                });
+
+                // Закрываем меню, если кликнули в любое другое место экрана
+                document.addEventListener('click', function() {
+                    dropdownMenu.style.display = 'none';
+                });
+            }
+        });
+    </script>
 </body>
 </html>
