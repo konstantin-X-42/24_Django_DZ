@@ -231,10 +231,18 @@
                             </div>
                             <div class="card-body">
                                 <h1 class="card-title pricing-card-title">${{ product.price }}</h1>
+
                                 <ul class="list-unstyled mt-3 mb-4">
-                                    <li>{{ product.description|default:"Описание отсутствует" }}</li>
+                                    <!-- Задание 2: Ограничиваем описание товара до 100 символов -->
+                                    <li>{{ product.description|truncatechars:100|default:"Описание отсутствует" }}</li>
                                 </ul>
-                                <button type="button" class="btn-outline-primary">Купить</button>
+                                <!-- Задание 1 + 2: Делаем кнопку ссылкой для перехода на детальную страницу товара -->
+                                <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-outline-primary w-100">Купить</a>
+
+<!--                                <ul class="list-unstyled mt-3 mb-4">-->
+<!--                                    <li>{{ product.description|default:"Описание отсутствует" }}</li>-->
+<!--                                </ul>-->
+<!--                                <button type="button" class="btn-outline-primary">Купить</button>-->
                             </div>
                         </div>
                     </div>
