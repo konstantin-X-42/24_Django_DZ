@@ -16,10 +16,17 @@ def home_view(request):
     # Передаем все товары в шаблон
     return render(request, 'catalog/home.html', {'products': products_all})
 
-
 def categories_view(request):
     """Контроллер для страницы категорий"""
-    return render(request, 'catalog/21-2_home2.html')
+    # Забираем все продукты, чтобы вывести их на странице категорий
+    products_all = Product.objects.all()
+    # Передаем их в шаблон под ключом 'products'
+    return render(request, 'catalog/21-2_home2.html', {'products': products_all})
+
+
+# def categories_view(request):
+#     """Контроллер для страницы категорий"""
+#     return render(request, 'catalog/21-2_home2.html')
 
 
 def orders_view(request):
