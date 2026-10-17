@@ -1,6 +1,8 @@
 from django.urls import path
 # Добавляем в импорт контроллеры, включая новый product_detail_view
-from catalog.views import home_view, categories_view, orders_view, contacts_view, product_detail_view
+from catalog.views import (
+    home_view, categories_view, orders_view, contacts_view, product_detail_view, create_product_view
+)
 
 # исключаем одноименные конфликты
 app_name = 'catalog'
@@ -20,6 +22,8 @@ urlpatterns = [
 
     # НОВЫЙ МАРШРУТ ПО ТЗ (Задание 1)
     path('products/<int:pk>/', product_detail_view, name='product_detail'),
+
+    path('products/create/', create_product_view, name='create_product'),
 ]
 
 #----------23--

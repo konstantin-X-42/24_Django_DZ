@@ -67,6 +67,10 @@ def product_detail_view(request, pk):
     return render(request, 'catalog/product_detail.html', {'product': product})
 
 
+# Дополнительное задание 1: Контроллер формы создания товара
+def create_product_view(request):
+    # Пока оставляем пустым или с базовым рендером, чтобы сервер запустился
+    return render(request, 'catalog/product_form.html')
 
 
 
